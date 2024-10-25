@@ -24,28 +24,35 @@
     let pokemonID=ref([]);
 
     function getPokemonData(ind){
-        fetch("https://pokeapi.co/api/v2/pokemon-form/"+ind+"/").then(response=>response.json()).then(data=>{pokemonImg.value.push(data.sprites.front_default)});
+        fetch(`https://pokeapi.co/api/v2/pokemon-form/${ind}/`)
+            .then(response=>response.json())
+            .then(data=>{
+                pokemonImg.value.push(data.sprites.front_default)
+            });
     }
     
     function getIdPokemon(ind){
-        fetch("https://pokeapi.co/api/v2/pokemon/"+ind+"/").then(response=>response.json()).then(data=>{pokemonID.value.push(data.id)});
+        fetch(`https://pokeapi.co/api/v2/pokemon/${ind}/`)
+            .then(response => response.json())
+            .then(data => {
+                pokemonID.value.push(data.id);
+            });
     }
         
     onBeforeMount( async() => {
-        fetch("https://pokeapi.co/api/v2/pokemon?limit=151&offset=0").then(response=>response.json()).then(data=>
-            {data.results.forEach((pokemon, index) => {
+        fetch("https://pokeapi.co/api/v2/pokemon?limit=151&offset=0")
+            .then(response=>response.json())
+            .then(data=>{
+                data.results.forEach((pokemon, index) => {
+
                 getPokemonData(index + 1)
                 pokemonName.value.push(pokemon.name);
-                // console.log("name: " + pokemonName.value.push(pokemon.name));
-                console.log(pokemon.url.split("/").pop());
+
                 getIdPokemon(index + 1)
-                pokemonID.value.push(pokemon.id);
-                // console.log("id: " + (pokemonID.value.push(data.id)));
+                // pokemonID.value.push(pokemon.id);
+                
             })
         });
     });
-    // console.log(pokemonImg);
-    // console.log(pokemonName);
-    // console.log(pokemonID)
 </script>
 
