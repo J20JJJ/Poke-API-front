@@ -1,0 +1,60 @@
+.fondo_info {
+    background-color: blue;
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    display: flex;
+    
+    .decorar_info{
+        border: 5px solid black;
+        background-color: blueviolet;
+
+        .pokemon_info{
+            background-color: aqua;
+            border: 5px solid black;
+            margin: 10px; 
+            text-align: center;
+
+            .pokemon_info_2{
+                background-color: blueviolet;
+                border: 5px solid black;
+                margin: 10px; 
+                text-align: center;
+            }
+        }
+    }
+
+    h1 {
+        color: yellow;
+        text-transform: uppercase;
+    }
+    
+    .caja_pokemon {
+        border: 1px solid black;
+        background-color: aquamarine;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+
+        .pokemon{
+            background-color: black;
+            border: 1px solid black;
+            margin: 10px; 
+            text-align: center;
+
+            img{
+                background-color: white;
+                width: 100px; height: 100px;
+            }
+
+            p{
+                color: white;
+            }
+        }
+
+
+        
+    }
+}
+
