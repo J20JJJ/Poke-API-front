@@ -1,7 +1,6 @@
 <template>
     <div class="fondo_info">
-        <h1>{{ pokemonName[0] }} <br><br><br> {{pokemonID}}</h1>
-
+        <h1>{{ pokemonName[0] }} <br><br><br> {{pokemonID}} <br><br><br> <button @click="$emit('toggle')">Volver</button></h1>
         <!-- <div v-if="pokemonImg.length === 0">Cargando Pokémon...</div> -->
          <div class="decorar_info">
             <div class="caja_pokemon">
@@ -14,11 +13,13 @@
                 <div class="pokemon_info_2">
                     <h2>Tipo</h2>
                     <div v-for="(i, index) in pokemonTipo" :key="index">{{pokemonTipo[index]}}</div>
+                    <br>
                 </div>
-
+                
                 <div class="pokemon_info_2">
                     <h2>Ataques</h2>
                     <div v-for="(i, index) in pokemonAtaque" :key="index">{{pokemonAtaque[index]}}</div>
+                    <br>
                 </div>
 
             </div>
@@ -30,11 +31,25 @@
 </template>
 
 <script setup>
+
+
+import { defineProps } from 'vue';
+  
+  const props = defineProps({
+      pokemonID: {
+          type: Number,
+          required: true
+      }
+  });
+  
+  console.log("Información del Pokémon con ID:", props.pokemonID);
+
+
 import { ref, onBeforeMount } from 'vue';
 
 let pokemonImg = ref([]);
 let pokemonName = ref([]);
-let pokemonID = 25;
+let pokemonID = props.pokemonID;
 let pokemonTipo = ref([]);
 let pokemonAtaque = ref([]);
 
@@ -92,3 +107,17 @@ onBeforeMount(async () => {
     }
 });
 </script>
+
+
+<!-- sssssssssssssssssssssssss -->
+
+<!-- <template>
+    <div class="pokemon-info">
+      
+    </div>
+  </template>
+  
+  <script setup>
+  
+  </script>
+   -->

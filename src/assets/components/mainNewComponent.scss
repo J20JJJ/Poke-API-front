@@ -30,6 +30,10 @@
                 color: white;
             }
         }
+
+        .pokemon:hover{
+            filter: grayscale(70%);
+        }
     }
 }
 

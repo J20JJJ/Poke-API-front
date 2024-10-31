@@ -1,13 +1,12 @@
-<!-- mainNewComponent.vue -->
 <template>
     <div class="fondo">
         <h1>Puchadex</h1>
-        <!-- <div v-if="pokemonImg.length === 0">Cargando Pokémon...</div> -->
-        <div class="caja_pokemon" ><!-- v-else -->
-            <div v-for="(pokemon, index) in pokemonImg" :key="pokemonID[index]" class="pokemon">
+        <div class="caja_pokemon">
+            <div v-for="(pokemon, index) in pokemonImg" :key="pokemonID[index]" class="pokemon" @click="$emit('toggle', pokemonID[index])">
                 <img :src="pokemon" :alt="pokemonName[index]">
                 <p>{{ pokemonName[index] }}</p>
                 <p>{{ pokemonID[index] }}</p>
+                
             </div>
         </div>
     </div>
