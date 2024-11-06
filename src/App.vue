@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import mainNewComponent from './components/mainNewComponent.vue';
+import mainNewComponent_rama from './components/mainNewComponent_rama.vue';
 import mostrarInfoPokemon from './components/mostrarInfoPokemon.vue';
+import pokedex from './components/pokedex.vue';
 
 let pokemonImg = ref([]);
 let pokemonName = ref([]);
@@ -46,14 +48,21 @@ function toggleComponent(pokemonID) {
 
 <template>
   <header>
-    <mainNewComponent 
+    <!-- <mainNewComponent 
       v-if="showMainComponent"
       :pokemonImg="pokemonImg"
       :pokemonName="pokemonName"
       :pokemonID="pokemonID"
       @toggle="toggleComponent" 
     />
-    <mostrarInfoPokemon v-else :pokemonID="selectedPokemonID" @toggle="toggleComponent" />
+    <mostrarInfoPokemon v-else :pokemonID="selectedPokemonID" @toggle="toggleComponent" /> -->
+
+    <!-- <pokedex :pokemonID=12 /> -->
+
+    <mainNewComponent_rama 
+      :pokemonID="133"
+    />
+
   </header>
 </template>
 

@@ -108,16 +108,3 @@ onBeforeMount(async () => {
 });
 </script>
 
-
-<!-- sssssssssssssssssssssssss -->
-
-<!-- <template>
-    <div class="pokemon-info">
-      
-    </div>
-  </template>
-  
-  <script setup>
-  
-  </script>
-   -->
