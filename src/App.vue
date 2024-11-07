@@ -60,7 +60,7 @@ function toggleComponent(pokemonID) {
     <!-- <pokedex :pokemonID=12 /> -->
 
     <mainNewComponent_rama 
-      :pokemonID="133"
+      :pokemonID=744
     />
 
   </header>
