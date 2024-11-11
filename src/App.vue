@@ -57,11 +57,11 @@ function toggleComponent(pokemonID) {
     />
     <mostrarInfoPokemon v-else :pokemonID="selectedPokemonID" @toggle="toggleComponent" /> -->
 
-    <!-- <pokedex :pokemonID=12 /> -->
+    <pokedex :pokemonID=1 />
 
-    <mainNewComponent_rama 
-      :pokemonID=744
-    />
+    <!-- <mainNewComponent_rama 
+      :pokemonID=44
+    /> -->
 
   </header>
 </template>

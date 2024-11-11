@@ -58,15 +58,18 @@ async function getPokemonEvolution(indE) {
             const evolutionUrls = [];
             let currentChain = data.chain;
 
+            //evolutiones con piedras
             const evolutionUrls1 = data.chain.evolves_to.map(evolution => evolution.species.url);
 
+            //evolutiones normales
             const evolutionUrls2 = [ ...data.chain.evolves_to.flatMap(evolution => [...evolution.evolves_to.map(e => e.species.url)])];
 
+            //evolutiones normales
             while (currentChain) {
                 if (currentChain.species && currentChain.species.url) {
                     evolutionUrls.push(currentChain.species.url);
                 }
-                currentChain = currentChain.evolves_to && currentChain.evolves_to[0]; // Pasamos al siguiente eslabón de la cadena de evoluciones
+                currentChain = currentChain.evolves_to && currentChain.evolves_to[0];
             }
 
             evolutionUrls1.shift();
