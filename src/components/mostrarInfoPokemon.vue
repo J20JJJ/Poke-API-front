@@ -1,6 +1,11 @@
 <template>
     <div class="fondo_info">
-        <h1>{{ pokemonName[0] }} <br><br><br> {{pokemonID}} <br><br><br> <button @click="$emit('toggle')">Volver</button></h1>
+        <h1>{{ pokemonName[0] }} <br><br><br> {{pokemonID}} <br><br><br> 
+            <router-link :to="'/'">
+                <button>hola</button>
+            </router-link>
+        
+        </h1>
         <!-- <div v-if="pokemonImg.length === 0">Cargando Pokémon...</div> -->
          <div class="decorar_info">
             <div class="caja_pokemon">
@@ -21,12 +26,10 @@
                     <div v-for="(i, index) in pokemonAtaque" :key="index">{{pokemonAtaque[index]}}</div>
                     <br>
                 </div>
-
             </div>
         </div>
         
         
-
     </div>
 </template>
 
@@ -35,21 +38,25 @@
 
 import { defineProps } from 'vue';
   
-  const props = defineProps({
-      pokemonID: {
-          type: Number,
-          required: true
-      }
-  });
+
+let route = useRoute();
+//   const props = defineProps({
+//       pokemonID: {
+//           type: Number,
+//           required: true
+//       }
+//   });
   
-  console.log("Información del Pokémon con ID:", props.pokemonID);
+//   console.log("Información del Pokémon con ID:", props.pokemonID);
 
 
 import { ref, onBeforeMount } from 'vue';
 
+import { useRoute } from 'vue-router';
+
 let pokemonImg = ref([]);
 let pokemonName = ref([]);
-let pokemonID = props.pokemonID;
+let pokemonID = route.params.id
 let pokemonTipo = ref([]);
 let pokemonAtaque = ref([]);
 

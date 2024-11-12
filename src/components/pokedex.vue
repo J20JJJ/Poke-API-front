@@ -6,6 +6,7 @@
           {{ pokemonName }}
           <span class="name-no">no. {{ pokemonID }}</span>
         </div>
+
         <div class="pokemon-sprite-container">
             <!-- Usamos el índice 'currentImageIndex' para mostrar la imagen correspondiente -->
             <img :src="pokemonImg[currentImageIndex]" alt="pokemon" class="pokemon-sprite">
@@ -21,7 +22,16 @@
             </div>
             </div>
         </div>
-        <div class="pokemon-description screen"><PokeIcon></PokeIcon></div>
+        <router-link :to="'/'">
+            <sus style='width: 100%;'
+            :imgBTN = "pokemonImg[0]"
+            />
+        </router-link>
+        
+        <div class="pokemon-description screen">
+            {{ description }}
+        </div>
+        
       </div>
      
 
@@ -45,17 +55,19 @@
           </div>
         </div>
         <div class="panel-header">Evolución</div>
-        <div class="panel-row panel-evo">
+        <div class="panel-row panel-evo scroll_evos">
           <div class="flex-center pokemon-sprite" v-for="(evolution, index) in pokemonEvolution" :key="index">
-            <div class="evo-num">{{ index + 1 }}</div>
-            <img :src="evolution.img" :alt="evolution.name" class="pokemon-sprite-evo" />
-            <div class="name-evo">{{ evolution.name }}</div>
+            <router-link :to="{ name: 'pokedex', params: { id: evolution.id }}">
+                <div class="evo-num"> {{ evolution.id }}</div>
+                <img :src="evolution.img" :alt="evolution.name" class="pokemon-sprite-evo" />
+                <div class="name-evo">{{ evolution.name }}</div>
+                </router-link>  
           </div>
         </div>
   
         <div class="panel-moves">
           <div class="panel-header">Moves</div>
-          <div class="move-list">
+          <div class="move-list scroll_moves">
             <div v-for="(move, index) in pokemonAtaque" :key="index" class="type">{{ move }}</div>
           </div>
         </div>
@@ -64,7 +76,8 @@
   </template>
   
   <script setup>
-   import PokeIcon from '@/assets/img/pokeicon.svg';
+import sus from './sus.vue';
+
   import { ref, onBeforeMount } from 'vue';
 
   const currentImageIndex = ref(0);
@@ -144,48 +157,55 @@ function changeToShiny() {
 }
 
 function changeToGender() {
-  switch(currentImageIndex.value){
-    case 0:{
-        currentImageIndex.value = 1
-        break;
-    }
-    case 1:{
-        currentImageIndex.value = 0
-        break;
-    }
-    case 2:{
-        currentImageIndex.value = 3
-        break;
-    }
-    case 3:{
-        currentImageIndex.value = 2
-        break;
-    }
-    case 4:{
-        currentImageIndex.value = 5
-        break;
-    }
-    case 5:{
-        currentImageIndex.value = 4
-        break;
-    }
-    case 6:{
-        currentImageIndex.value = 7
-        break;
-    }
-    case 7:{
-        currentImageIndex.value = 6
-        break;
-    }
-  }
+
+   if(!pokemonImg.value[1] == ""){
+
+       switch(currentImageIndex.value){
+         case 0:{
+             currentImageIndex.value = 1
+             break;
+         }
+         case 1:{
+             currentImageIndex.value = 0
+             break;
+         }
+         case 2:{
+             currentImageIndex.value = 3
+             break;
+         }
+         case 3:{
+             currentImageIndex.value = 2
+             break;
+         }
+         case 4:{
+             currentImageIndex.value = 5
+             break;
+         }
+         case 5:{
+             currentImageIndex.value = 4
+             break;
+         }
+         case 6:{
+             currentImageIndex.value = 7
+             break;
+         }
+         case 7:{
+             currentImageIndex.value = 6
+             break;
+         }
+       }
+   }
 }
   
   const pokemonImg = ref([]);
   const pokemonName = ref('');
-  const pokemonID = ref(25);  // El ID puede venir como prop
   const pokemonTipo = ref([]);
   const pokemonAtaque = ref([]);
   const pokemonEvolution = ref([]);  // Para las evoluciones
+
+  const pokemonID_Evolution = ref([]);
+
+  let description = ref([]);
   
   const props = defineProps({
     pokemonID: {
@@ -194,7 +214,12 @@ function changeToGender() {
     }
   });
   
-  const pokemonIDProp = props.pokemonID;  // Obtener el ID del Pokémon desde los props
+  import { useRoute } from 'vue-router';
+  let route = useRoute();
+
+  let pokemonID = route.params.id
+
+  const pokemonIDProp = pokemonID;  
   
   // Función para obtener la data del Pokémon (nombre, imágenes, tipo y ataques)
   async function getPokemonData(ind) {
@@ -210,9 +235,10 @@ function changeToGender() {
       front_shiny: data.sprites.front_shiny,
       front_shiny_female: data.sprites.front_shiny_female,
       
+      id: data.id,
       name: data.name,
       tipos: data.types.map(tipo => tipo.type.name),
-      ataques: data.moves.slice(0, 5).map(a => a.move.name)  // Solo mostramos los primeros 5 ataques por simplicidad
+      ataques: data.moves.map(a => a.move.name)  // Solo mostramos los primeros 5 ataques por simplicidad
     };
   }
   
@@ -220,13 +246,17 @@ function changeToGender() {
   async function getPokemonEspecie(ind) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${ind}/`);
     const data = await response.json();
-    return { evolution_chain_url: data.evolution_chain.url };
+    return { 
+        evolution_chain_url: data.evolution_chain.url,
+        description1: data.flavor_text_entries[0].flavor_text
+    };
   }
   
   // Función para obtener la evolución
   async function getPokemonEvolution(indE) {
     try {
       const response = await fetch(indE);
+      console.log("sdsd: ",indE)
       const data = await response.json();
   
       if (data.chain ) {
@@ -280,19 +310,23 @@ function changeToGender() {
         pokemonName.value = pokemon.name;
         pokemonTipo.value.push(...pokemon.tipos);
         pokemonAtaque.value.push(...pokemon.ataques);
+
+        console.log("pokemonAtaque: ", pokemonAtaque.value)
   
         // Obtener la especie para obtener la evolución
         const especie = await getPokemonEspecie(pokemonIDProp);
         if (especie) {
+            console.log("especie: ",especie)
           // Obtener la evolución
           const evolution = await getPokemonEvolution(especie.evolution_chain_url);
-           
+          description = especie.description1
+
           if (evolution) {
             const evolutionIds = evolution.evolution_url.map(url => {
               const parts = url.split('/');
               return parts[parts.length - 2]; // Obtener el ID de la evolución
             });
-  
+            
             const pokemonPromises = evolutionIds.map(id => getPokemonData(id));
             const pokemons = await Promise.all(pokemonPromises);
   
@@ -300,13 +334,16 @@ function changeToGender() {
               if (pokemon) {
                 pokemonEvolution.value.push({
                   img: pokemon.front_default,
-                  name: pokemon.name
+                  name: pokemon.name,
+                  id: pokemon.id
                 });
               }
             });
+            console.log("pokemonEvolution: ", pokemonEvolution.value)
           }
         }
       }
+      ajustarAltura()
     } catch (error) {
       console.error("Error al cargar la información del Pokémon:", error);
     }
@@ -319,12 +356,32 @@ function changeToGender() {
 
 <!-- ggssssssssssssssssssss -->
 
-  <style scoped>
+<style scoped>
 
+.panel-moves{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 
-  h1 {
+.scroll_moves {
+    overflow-y: auto;
+    min-height: 160px; 
+    max-height: 180px; 
+}
+
+.scroll_evos {
+    overflow-y: auto;
+    min-height: 345px;
+    max-height: 350px; 
+}
+
+    h1 {
     color: white;
 }
+/* ::-webkit-scrollbar {
+    display: none;
+} */
 
 body {
     margin: 0;

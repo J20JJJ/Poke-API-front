@@ -1,37 +1,28 @@
-import { createRouter, createWebHistory} from 'vue-router'
-// import Vue from 'vue'
-// import AppPage from './App.vue'
-import HomePage from './assets/pg/HomePage.vue'
-import SinglePokePage from './assets/pg/SinglePokePage.vue'
-
-// Vue.useAttrs(Router)
+import { createRouter, createWebHistory } from 'vue-router';
+import HomePage from './assets/pg/HomePage.vue';
+import mostrarInfoPokemon from './components/mostrarInfoPokemon.vue';
+import pokedex from './components/pokedex.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
-        routes: [
-            {
-                path: '/',
-                name: 'home',
-                // component: AppPage,
-                children:[
-                    {
-                        path: '',
-                        component: HomePage
-                    },
-                    {
-                      path: 'pokemon/:id',
-                      name: "singlePokePage",
-                      component: SinglePokePage
-                    }
-                ]
-            }
-            // {
-            //     path: '/prueba',
-            //     name: 'prueba',
-            //     component: PruebaPage
-            // }
-        ]
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            children: [
+                {
+                    path: '',
+                    component: HomePage
+                },
+                {
+                    path: 'pokemon/:id',
+                    name: 'pokedex',
+                    component: pokedex
+                }
+                
+            ]
+        }
+    ]
+});
 
-})
-
-export default router
+export default router;
