@@ -1,8 +1,4 @@
 <script setup>
-
-import mainNewComponent_rama from './components/mainNewComponent_rama.vue';
-import mostrarInfoPokemon from './components/mostrarInfoPokemon.vue';
-import pokedex from './components/pokedex.vue';
 </script>
 
 <template>
