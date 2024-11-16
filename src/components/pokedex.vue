@@ -3,7 +3,7 @@
     <div class="panel left-panel">
       <div class="pokemon-name screen">
         {{ pokemonName }}
-        <span class="name-no">no. {{ pokemonID }}</span>
+        <span class="name-no">no. {{ route.params.id }}</span>
       </div>
 
       <div class="pokemon-sprite-container">
