@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import sus from './sus.vue';
+import sus from './elementos/sus.vue';
 
 import { ref, onBeforeMount, watch } from 'vue';
 
